@@ -1,14 +1,16 @@
 #ifndef SCORE_MANAGER_H
 #define SCORE_MANAGER_H
 
+#include <Arduino.h>
+
 class ScoreManager{
 private:
     int x, y;
 
-    int score {0};
-    int lines {0};
-    int level {0};
-    int linesToNext {0};
+    uint32_t score {0};
+    uint32_t lines {0};
+    uint32_t level{0};
+    int linesToNext{0};
 public:
     unsigned long dt;
 
@@ -18,8 +20,8 @@ public:
 
     void incrementLine(int i);
 
-    int getScore() const { return score; }
-    int getLevel() const { return level; }
+    uint32_t getScore() const { return score; }
+    uint32_t getLevel() const { return level; }
 };
 
 #endif //SCORE_MANAGER_H

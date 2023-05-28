@@ -6,9 +6,6 @@
 MCUFRIEND_kbv tft;
 extern volatile uint8_t flags;
 
-#define TFT_WIDTH 320
-#define TFT_HEIGHT 480
-
 const uint8_t logo[5][23] PROGMEM = {
     1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,
     0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,
@@ -33,13 +30,6 @@ void setup(){
     attachInterrupt(digitalPinToInterrupt(LEFT_BUTTON), [](){   flags |= Board::LEFT;   }, FALLING);
     attachInterrupt(digitalPinToInterrupt(ROTATE_BUTTON), [](){ flags |= Board::ROTATE; }, FALLING);
     attachInterrupt(digitalPinToInterrupt(DROP_BUTTON), [](){   flags |= Board::DROP;   }, FALLING);
-}
-
-inline uint16_t getCenteredX(const char* str){
-    int16_t x1, y1;
-    uint16_t w,h;
-    tft.getTextBounds(str, 0, 0, &x1, &y1, &w, &h);
-    return (TFT_WIDTH-w)/2;
 }
 
 void startScreen(){
@@ -71,13 +61,13 @@ void endScreen(const Board& b){
 
 
     char str[64];
-    snprintf_P(str, 64, PSTR("SCORE:%d"), b.score());
+    snprintf_P(str, 64, PSTR("SCORE:%lu"), b.score());
     tft.setTextSize(2);
     tft.setCursor(getCenteredX((const char*)str), 300);
     tft.println(str);
 
     memset(str, 0, 64);
-    snprintf_P(str, 64, PSTR("LEVEL:%d"), b.level());
+    snprintf_P(str, 64, PSTR("LEVEL:%lu"), b.level());
     tft.setCursor(getCenteredX((const char*)str), 330);
     tft.println(str);
 }

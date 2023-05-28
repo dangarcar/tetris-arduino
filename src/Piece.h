@@ -11,10 +11,10 @@ class Piece {
 public:
     int x, y;
     const Block block;
-    uint16_t schema[5][5];
+    uint8_t schema[5][5];
 
     Piece() = default;
-    Piece(int i, const uint16_t schema[5][5]);
+    Piece(int i, const uint8_t schema[5][5]);
 
     void rotate();
     void antiRotate();
@@ -35,7 +35,7 @@ public:
     void drawNext();
 };
 
-const uint16_t PIECES_SCHEMA[7][5][5]  = {
+const uint8_t PIECES_SCHEMA[7][5][5] = {
     { // I
         0, 0, 0, 0, 0,
         0, 0, 0, 0, 0,

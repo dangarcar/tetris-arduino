@@ -170,17 +170,14 @@ bool Board::isValidMovement(){
 
 bool Board::isValidLateralMovement(){
     for(int i=0; i<5; i++){
-        if(currentPiece->y+i < 0)
-            continue;
         for(int j=0; j<5; j++){
             if(currentPiece->schema[i][j]){
-                if(currentPiece->x+j < 0){
+                if(currentPiece->x+j < 0 || currentPiece->x+j >= BOARD_WIDTH){
                     return false;
                 }
-                if(currentPiece->x+j >= BOARD_WIDTH){
-                    return false;
-                }
-                else if (board[currentPiece->y+i][currentPiece->x+j].isBlock()){
+                if(currentPiece->y+i < 0)
+                    continue;
+                if (board[currentPiece->y+i][currentPiece->x+j].isBlock()){
                     return false;
                 }
             }
@@ -188,4 +185,12 @@ bool Board::isValidLateralMovement(){
     }
 
     return true;
+}
+
+extern MCUFRIEND_kbv tft;
+uint16_t getCenteredX(const char* str){
+    int16_t x1, y1;
+    uint16_t w,h;
+    tft.getTextBounds(str, 0, 0, &x1, &y1, &w, &h);
+    return (TFT_WIDTH-w)/2;
 }

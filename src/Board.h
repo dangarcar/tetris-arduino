@@ -18,6 +18,9 @@
 
 #define BUTTON_DELAY 100
 
+#define TFT_WIDTH 320
+#define TFT_HEIGHT 480
+
 class Board {
 private:
     PieceSpawner pieceSpawner {13*TILE_SIZE-TILE_SIZE/2, TILE_SIZE*2-10};
@@ -44,8 +47,10 @@ public:
     void drop();
 
     unsigned long dt() const { return scoreManager.dt; }
-    int score() const { return scoreManager.getScore(); }
-    int level() const { return scoreManager.getLevel(); }
+    uint32_t score() const { return scoreManager.getScore(); }
+    uint32_t level() const { return scoreManager.getLevel(); }
 };
+
+uint16_t getCenteredX(const char* str);
 
 #endif //BOARD_H

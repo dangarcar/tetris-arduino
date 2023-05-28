@@ -1,26 +1,13 @@
 #include "Piece.h"
 #include "Board.h"
 
-Piece::Piece(int spriteIndex, const uint16_t schema[5][5]): block{spriteIndex, true, false} {
+Piece::Piece(int spriteIndex, const uint8_t schema[5][5]): block{spriteIndex, true, false} {
     for(int i=0; i<5; ++i){
         for(int j=0; j<5; ++j){
             this->schema[i][j] = schema[i][j];
         }
     }
 }
-
-/*void Piece::draw(){
-    for(int i=0; i<5; ++i){
-        for(int j=0; j<5; ++j){
-            if(schema[i][j] != 0){
-                drawTile(sprite, x + TILE_SIZE*j, y + TILE_SIZE*i);
-            }
-            else{
-                tft.fillRect(x + TILE_SIZE*j, y + TILE_SIZE*i, TILE_SIZE, TILE_SIZE, TFT_BLACK);
-            }
-        }
-    }
-}*/
 
 void Piece::setPos(int x, int y){
     this->x = x;
@@ -96,7 +83,6 @@ Piece* PieceSpawner::create(){
     drawNext();
 
     return old;
-    //return new Piece(i, PIECES_SCHEMA[i]);
 }
 
 extern MCUFRIEND_kbv tft;

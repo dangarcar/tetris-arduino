@@ -12,7 +12,9 @@ const int LEVEL_DT[] = {
 };
 
 ScoreManager::ScoreManager(int x, int y): x{x}, y{y} {
-    dt = 1000;
+    linesToNext = LINES_TO_NEXT[level];
+    dt = LEVEL_DT[level];
+    level = 1;
     drawScorePanel();
 }
 
@@ -21,8 +23,9 @@ void ScoreManager::incrementLine(int i){
     linesToNext -= i;
     if(linesToNext <= 0){
         dt = LEVEL_DT[level];
-        linesToNext = LINES_TO_NEXT[level];
-        level++;
+        linesToNext = LINES_TO_NEXT[level] + linesToNext;
+        if(level < 25UL)
+            level++;
     }
 
     switch (i){
@@ -35,7 +38,6 @@ void ScoreManager::incrementLine(int i){
     case 4:
         score += 1200 * (level + 1);
         break;
-    
     default:
         score += 40 * (level + 1);
         break;
@@ -48,22 +50,23 @@ void ScoreManager::drawScorePanel() const {
     Serial.println(x);
     Serial.println(y);
 
-    tft.fillRect(x, y, 80, 120, TFT_BLACK);
+    tft.fillRect(x, y, 80, 80, TFT_BLACK);
 
     tft.setTextSize(1);
 
     tft.setCursor(x, y);
-    tft.println(F("SCORE"));
-    tft.setCursor(x, y+15);
-    tft.println(score);
-
-    tft.setCursor(x, y+15+30);
     tft.println(F("LEVEL"));
-    tft.setCursor(x, y+15+30+15);
+    tft.setCursor(x, y+15);
     tft.println(level);
 
-    tft.setCursor(x, y+15+30+15+30);
+    tft.setCursor(x, y+15+30);
     tft.println(F("LINES"));
-    tft.setCursor(x, y+15+30+15+30+15);
+    tft.setCursor(x, y+15+30+15);
     tft.println(lines);
+
+    tft.fillRect(0, 444, 320, 20, TFT_BLACK);
+    char str[64];
+    snprintf_P(str, 64, PSTR("SCORE:%lu"), score);
+    tft.setCursor(getCenteredX((const char*)str), 460);
+    tft.println(str);
 }
